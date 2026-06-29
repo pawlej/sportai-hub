@@ -1,0 +1,16 @@
+package pl.sportaihub.enums;
+
+public enum ActivityType {
+    MEMBER_CREATED,
+    MEMBER_UPDATED,
+    MEMBER_DELETED,
+
+    PROJECT_CREATED,
+    PROJECT_UPDATED,
+    PROJECT_DELETED,
+
+    TASK_CREATED,
+    TASK_UPDATED,
+    TASK_STATUS_CHANGED,
+    TASK_DELETED
+}

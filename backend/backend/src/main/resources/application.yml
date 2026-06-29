@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: sportai-hub-backend
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5434/sportaihub}
+    username: ${SPRING_DATASOURCE_USERNAME:sportaihub}
+    password: ${SPRING_DATASOURCE_PASSWORD:sportaihub}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+  endpoint:
+    health:
+      show-details: always

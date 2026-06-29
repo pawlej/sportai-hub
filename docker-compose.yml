@@ -1,0 +1,68 @@
+services:
+  db:
+    image: postgres:16
+    container_name: sportaihub-db
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    volumes:
+      - sportaihub_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+      interval: 5s
+      timeout: 5s
+      retries: 15
+
+    networks:
+      - sportaihub-network
+
+  backend:
+    build:
+      context: ./backend/backend
+
+    container_name: sportaihub-backend
+    restart: unless-stopped
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+
+    expose:
+      - "8080"
+
+    networks:
+      - sportaihub-network
+
+  frontend:
+    build:
+      context: ./frontend
+
+    container_name: sportaihub-frontend
+    restart: unless-stopped
+
+    depends_on:
+      - backend
+
+    ports:
+      - "${APP_PORT}:80"
+
+    networks:
+      - sportaihub-network
+
+volumes:
+  sportaihub_data:
+
+networks:
+  sportaihub-network:
