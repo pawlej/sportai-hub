@@ -1,0 +1,47 @@
+@startuml
+
+class Member {
+    - Long id
+    - String firstName
+    - String lastName
+    - String email
+    - MemberSpecialization specialization
+    - boolean active
+}
+
+class Project {
+    - Long id
+    - String name
+    - String description
+    - ProjectStatus status
+}
+
+class ProjectTask {
+    - Long id
+    - String title
+    - String description
+    - TaskStatus status
+}
+
+class ActivityLog {
+    - Long id
+    - ActivityType type
+    - String description
+    - LocalDateTime createdAt
+}
+
+enum MemberSpecialization
+enum ProjectStatus
+enum TaskStatus
+enum ActivityType
+
+Member "1" <-- "0..*" Project : leader
+Member "0..1" <-- "0..*" ProjectTask : assigned member
+Project "1" <-- "0..*" ProjectTask : project
+
+Member --> MemberSpecialization
+Project --> ProjectStatus
+ProjectTask --> TaskStatus
+ActivityLog --> ActivityType
+
+@enduml

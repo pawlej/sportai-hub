@@ -1,0 +1,34 @@
+@startuml
+
+actor "Użytkownik" as User
+
+node "Komputer użytkownika" {
+    artifact "Przeglądarka WWW" as Browser
+}
+
+node "Maszyna wirtualna 172.20.41.28" {
+    node "Docker Engine" {
+        node "sportaihub-frontend" {
+            component "Nginx"
+            artifact "React build"
+        }
+
+        node "sportaihub-backend" {
+            component "Spring Boot"
+        }
+
+        node "sportaihub-db" {
+            database "PostgreSQL"
+        }
+    }
+
+    storage "Docker Volume" as Volume
+}
+
+User --> Browser
+Browser --> Nginx : HTTP : 8085
+Nginx --> "Spring Boot" : REST / WebSocket
+"Spring Boot" --> PostgreSQL : JDBC
+PostgreSQL --> Volume : trwałe dane
+
+@enduml

@@ -1,0 +1,44 @@
+@startuml
+
+package "Klient React" {
+    component "App" as App
+    component "DashboardPage" as Dashboard
+    component "MembersPage" as Members
+    component "ProjectsPage" as Projects
+    component "TasksPage" as Tasks
+    component "HTTP API Client" as ApiClient
+    component "WebSocket Client" as WebSocketClient
+}
+
+package "Serwer Spring Boot" {
+    component "REST Controllers" as Controllers
+    component "Services" as Services
+    component "Spring AOP Aspect" as Aspect
+    component "Spring Data Repositories" as Repositories
+    component "WebSocket Broker" as Broker
+}
+
+database "PostgreSQL" as Database
+
+App --> Dashboard
+App --> Members
+App --> Projects
+App --> Tasks
+
+Dashboard --> ApiClient
+Members --> ApiClient
+Projects --> ApiClient
+Tasks --> ApiClient
+
+Dashboard --> WebSocketClient
+
+ApiClient --> Controllers : HTTP / JSON
+WebSocketClient --> Broker : STOMP
+
+Controllers --> Services
+Services --> Repositories
+Aspect --> Services
+Aspect --> Broker
+Repositories --> Database : JPA / JDBC
+
+@enduml

@@ -1,0 +1,10 @@
+pl.sportaihub
+pl.sportaihub.aspect
+pl.sportaihub.config
+pl.sportaihub.controller
+pl.sportaihub.dto
+pl.sportaihub.entity
+pl.sportaihub.enums
+pl.sportaihub.exception
+pl.sportaihub.repository
+pl.sportaihub.service

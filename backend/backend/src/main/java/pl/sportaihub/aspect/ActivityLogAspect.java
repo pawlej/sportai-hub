@@ -4,7 +4,14 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 import pl.sportaihub.service.ActivityService;
-
+/**
+ * Aspekt rejestrujący zdarzenia biznesowe wykonywane w aplikacji.
+ *
+ * <p>Przechwytuje wykonanie metod oznaczonych adnotacją
+ * {@link LogActivity}, mierzy czas ich wykonania oraz zapisuje
+ * informację w historii aktywności. Zdarzenia są następnie
+ * przekazywane do klientów przez WebSocket.</p>
+ */
 @Aspect
 @Component
 public class ActivityLogAspect {

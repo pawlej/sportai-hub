@@ -1,0 +1,23 @@
+@startuml
+left to right direction
+
+actor "Członek zarządu" as User
+
+rectangle "SportAI Hub" {
+    usecase "Wyświetlenie dashboardu" as Dashboard
+    usecase "Zarządzanie członkami" as Members
+    usecase "Zarządzanie projektami" as Projects
+    usecase "Zarządzanie zadaniami" as Tasks
+    usecase "Zmiana statusu zadania" as Status
+    usecase "Przegląd aktywności" as Activity
+}
+
+User --> Dashboard
+User --> Members
+User --> Projects
+User --> Tasks
+User --> Status
+User --> Activity
+
+Tasks .> Status : <<include>>
+@enduml

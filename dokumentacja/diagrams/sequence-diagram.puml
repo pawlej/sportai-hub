@@ -1,0 +1,28 @@
+@startuml
+
+actor Użytkownik
+participant "React frontend" as Frontend
+participant "TaskController" as Controller
+participant "TaskService" as Service
+participant "ProjectTaskRepository" as Repository
+participant "ActivityLogAspect" as Aspect
+participant "WebSocket" as WebSocket
+database PostgreSQL
+
+Użytkownik -> Frontend : Wypełnia formularz zadania
+Frontend -> Controller : POST /api/tasks
+Controller -> Service : create(request)
+Service -> Repository : save(task)
+Repository -> PostgreSQL : INSERT
+PostgreSQL --> Repository : zapisano
+Repository --> Service : zapisane zadanie
+Service --> Controller : TaskResponse
+
+Aspect -> PostgreSQL : zapis ActivityLog
+Aspect -> WebSocket : publikacja zdarzenia
+WebSocket --> Frontend : /topic/activity
+
+Controller --> Frontend : 201 Created
+Frontend --> Użytkownik : odświeżona lista zadań
+
+@enduml
